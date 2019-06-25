@@ -14,120 +14,67 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             Console.ReadKey(true);
         }
 
-        private static void Test(string args, int expected)
-        {
+        public static int FindDiv(String number, String result)  {
+            int num = int.Parse(result)/int.Parse(number);
+            int rem = int.Parse(result)%int.Parse(number);
+            if(rem != 0)
+                return -1;
+            else
+                return num;
+        }
+
+        public static int FindProd(String A, String B)  {
+            int result = int.Parse(A) * int.Parse(B);
+            return result;
+        }
+
+        public static int checkExpected(int number, String providedNumber)  {
+            String evaluatedValue = number.ToString();
+            int indexOfQMARK = providedNumber.IndexOf('?');
+            providedNumber =  providedNumber.Remove(indexOfQMARK,1);
+            int valueOfQmark = int.Parse(evaluatedValue[indexOfQMARK].ToString());
+            evaluatedValue = evaluatedValue.Remove(indexOfQMARK, 1);
+            if(providedNumber == evaluatedValue)
+                return valueOfQmark;
+            else
+                return -1;
+        }
+
+        private static void Test(string args, int expected)  {
             var result = FindDigit(args).Equals(expected) ? "PASS" : "FAIL";
             Console.WriteLine($"{args} : {result}");
         }
-        public static int FindDigit(string equation)
-        {
-            int index = equation.IndexOf('*');
-            String a = equation.Substring(0,index);
+        public static int FindDigit(string equation)  {
+            int indexOfAstrik = equation.IndexOf('*');
+            int indexOfEquals = equation.IndexOf('=');
+            String A = equation.Substring(0,indexOfAstrik);
+            String B = equation.Substring(indexOfAstrik+1, indexOfEquals-indexOfAstrik-1);
+            String C = equation.Substring(indexOfEquals+1);
+            int checkResult = 0;
 
-            int index1 = equation.IndexOf('=');
-            String b = equation.Substring(index+1,index1-index-1);
-
-            String c = equation.Substring(index1+1);
-
-            if(a.Contains('?'))  {
-                float num2 = float.Parse(b);
-                float res = float.Parse(c);
-
-                float num1 = res/num2;
-
-                String result = num1.ToString();
-
-                char[] a1 = a.ToCharArray();
-                char[] res1 = result.ToCharArray();
-
-                if(a1.Length == res1.Length)  {
-                    int i = 0, num = -1;
-                    while(i<a1.Length)  {
-                        if(a1[i] == '?')  {
-                            num = int.Parse(res1[i].ToString());
-                            i++;
-                        }
-                        else if(a1[i] == res1[i])  {
-                            i++;
-                        }
-                        else
-                            break;
-                    }
-                    if(i == a1.Length)
-                        return num;
-                    else
-                        return -1;
-                }
-                else
-                    return -1;
+            if(C.Contains('?'))  {
+                int c = FindProd(A, B);
+                checkResult = checkExpected(c, C);
             }
-
-            else if(b.Contains('?'))  {
-                float num1 = float.Parse(a);
-                float res = float.Parse(c);
-
-                float num2 = res/num1;
-
-                String result = num2.ToString();
-
-                char[] b1 = b.ToCharArray();
-                char[] res1 = result.ToCharArray();
-
-                if(b1.Length == res1.Length)  {
-                    int i = 0, num = -1;
-                    while(i<b1.Length)  {
-                        if(b1[i] == '?')  {
-                            num = int.Parse(res1[i].ToString());
-                            i++;
-                        }
-                        else if(b1[i] == res1[i])  {
-                            i++;
-                        }
-                        else
-                            break;
-                    }
-                    if(i == b1.Length)
-                        return num;
-                    else
-                        return -1;
-                }
-                else
-                    return -1;
-            }
-
             else  {
-                float num1 = float.Parse(a);
-                float num2 = float.Parse(b);
-
-                float res = num1 * num2;
-
-                String result = res.ToString();
-
-                char[] c1 = c.ToCharArray();
-                char[] res1 = result.ToCharArray();
-
-                if(c1.Length == res1.Length)  {
-                    int i = 0, num = -1;
-                    while(i<c1.Length)  {
-                        if(c1[i] == '?')  {
-                            num = int.Parse(res1[i].ToString());
-                            i++;
-                        }
-                        else if(c1[i] == res1[i])
-                            i++;
-                        else
-                            break;
-                    }
-                    if(i == c1.Length)
-                        return num;
-                    else
-                        return -1;
+                int resNumber;
+                if(A.Contains('?'))  {
+                    resNumber = FindDiv(B, C);
+                    if(resNumber != -1)
+                        checkResult = checkExpected(resNumber, A);
+                    else 
+                        checkResult = -1;
                 }
-                else
-                    return -1;
+                else  {
+                    resNumber = FindDiv(A, C);
+                    if(resNumber != -1)
+                        checkResult = checkExpected(resNumber, B);
+                    else
+                        checkResult = -1;
+                }
             }
-            //Add your code here.
-            //throw new NotImplementedException();
+
+            return checkResult;
         }
     }
 }
