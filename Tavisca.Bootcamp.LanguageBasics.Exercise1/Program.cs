@@ -14,7 +14,7 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             Console.ReadKey(true);
         }
 
-        public static int FindDiv(String number, String result)  {
+        public static int GetDivision(String number, String result)  {
             int num = int.Parse(result)/int.Parse(number);
             int rem = int.Parse(result)%int.Parse(number);
             if(rem != 0)
@@ -23,12 +23,12 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
                 return num;
         }
 
-        public static int FindProd(String A, String B)  {
+        public static int GetProduct(String A, String B)  {
             int result = int.Parse(A) * int.Parse(B);
             return result;
         }
 
-        public static int checkExpected(int number, String providedNumber)  {
+        public static int CheckExpected(int number, String providedNumber)  {
             String evaluatedValue = number.ToString();
             int indexOfQMARK = providedNumber.IndexOf('?');
             providedNumber =  providedNumber.Remove(indexOfQMARK,1);
@@ -53,22 +53,22 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             int checkResult = 0;
 
             if(C.Contains('?'))  {
-                int c = FindProd(A, B);
-                checkResult = checkExpected(c, C);
+                int c = GetProduct(A, B);
+                checkResult = CheckExpected(c, C);
             }
             else  {
                 int resNumber;
                 if(A.Contains('?'))  {
-                    resNumber = FindDiv(B, C);
+                    resNumber = GetDivision(B, C);
                     if(resNumber != -1)
-                        checkResult = checkExpected(resNumber, A);
+                        checkResult = CheckExpected(resNumber, A);
                     else 
                         checkResult = -1;
                 }
                 else  {
-                    resNumber = FindDiv(A, C);
+                    resNumber = GetDivision(A, C);
                     if(resNumber != -1)
-                        checkResult = checkExpected(resNumber, B);
+                        checkResult = CheckExpected(resNumber, B);
                     else
                         checkResult = -1;
                 }
